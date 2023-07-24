@@ -52,6 +52,7 @@ class YOLOv7_DeepSORT:
         self.coco_names_path = coco_names_path
         self.nms_max_overlap = nms_max_overlap
         self.class_names = read_class_names()
+        self.class_idx = {v:k for k,v in self.class_names.items()} 
 
         # initialize deep sort
         self.encoder = create_box_encoder(reID_model_path, batch_size=1)
@@ -156,6 +157,11 @@ class YOLOv7_DeepSORT:
 
                 if verbose == 2:
                     print("Tracker ID: {}, Class: {},  BBox Coords (xmin, ymin, xmax, ymax): {}".format(str(track.track_id), class_name, (int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3]))))
+                    
+                    # save result
+                    with open(f'{output}_mot.txt', 'a') as f:
+                        f.write(f"{str(frame_num)},{str(track.track_id)},{int(bbox[0])},{int(bbox[1])},{int(bbox[2] - bbox[0])},{int(bbox[3] - bbox[1])},1,{self.class_idx.get(class_name)+1},1.0 \n")
+                    f.close
                     
             # -------------------------------- Tracker work ENDS here -----------------------------------------------------------------------
             if verbose >= 1:
