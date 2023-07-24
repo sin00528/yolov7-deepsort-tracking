@@ -1,5 +1,3 @@
-from collections.abc import Iterable
-
 from detection_helpers import *
 from tracking_helpers import *
 from bridge_wrapper import *
@@ -8,7 +6,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--yolo_model', type=str, default='./weights/yolov7x.pt', help='yolo model.pt path(s)')
     parser.add_argument('--reid_model', type=str, default='./deep_sort/model_weights/mars-small128.pb', help='reID model.pb path(s)')
-    parser.add_argument('--classes', nargs='+', type=int, default=[0], help='Filter by class from COCO. can be in the format [0] or [0,1,2] etc')
+    parser.add_argument('--classes', nargs='+', type=int, default=None, help='Filter by class from COCO. can be in the format [0] or [0,1,2] etc')
     parser.add_argument('--video', type=str, help='path to input video or set to 0 for webcam', required=True)
     parser.add_argument('--output', type=str, help='path to output video', required=True)
     parser.add_argument('--skip_frames', type=int, default=0, help="Skip every nth frame. After saving the video, it'll have very visuals experience due to skipped frames")
